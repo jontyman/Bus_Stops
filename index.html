@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Mapbox GL JS map</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.js"></script>
+<link rel="stylesheet" type="text/css" href="css/app.css">
+<script type="module" src="map.js"></script>
+</head>
+<body>
+
+    <div class="background">
+
+        <div class="titleBanner">
+            <div style="display:flex;">
+                <div style="flex:1; align: center;">
+                    <h1 class="mainHeading">Bussin</h1>
+                </div>
+            </div>
+        </div>
+
+<div id="container">
+<div id="dropdown">
+    <select id="evaluator">
+        <option value="Whangarei">Whangarei</option>
+        <option value="Auckland">Auckland</option>
+        <option value="Wellington">Wellington</option>    
+      </select>
+</div>
+    <div id="map"></div>
+</div>
+</div>
+</div>
+
+
+<!--<script>
+	mapboxgl.accessToken = 'pk.eyJ1Ijoiam9udHltYW4iLCJhIjoiY204YTR4NHVjMHpiODJxcHVyc3drc3B4NCJ9.bdW2qwj71tgZ0hFi7p4X_w';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: 'mapbox://styles/jontyman/cm8a7l1rr00h201sq0uxwciak',
+        center: [174.3194202, -35.7275268], // starting position [lng, lat]. Note that lat must be set between -90 and 90
+        zoom: 11 // starting zoom
+    });
+</script>-->
+
+</body>
+</html>
