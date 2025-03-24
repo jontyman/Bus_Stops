@@ -1,30 +1,35 @@
+import {getWeatherDescription, getWeatherIcon} from './weatherDescriptions.js';
+import {getCoordinates,getStyle} from './locationData.js';
+import {getWeatherURL} from './weatherAPI.js';
+import {getMapBoxAccessToken} from './mapBoxAPI.js';
+
     var defaultPlace = document.getElementById('evaluator').value; 
-    mapboxgl.accessToken = 'pk.eyJ1Ijoiam9udHltYW4iLCJhIjoiY204YTR4NHVjMHpiODJxcHVyc3drc3B4NCJ9.bdW2qwj71tgZ0hFi7p4X_w';
+    mapboxgl.accessToken = getMapBoxAccessToken();
     
     const map = new mapboxgl.Map({
         container: document.getElementById('map'), // container ID
-        style: locationsConfig[defaultPlace].style,
-        center: locationsConfig[defaultPlace].center,
+        style: getStyle(defaultPlace),
+        center: getCoordinates(defaultPlace),
         zoom: 11 // starting zoom
     });
 
     document.getElementById('evaluator').addEventListener("change",updateWeatherAndMap);
     var responseObject=null;
     var temp;
-    getData();
+    getWeatherData();
 
 
-   function mapFly(elementID,co_ords,styleURL){
-        var x = document.getElementById(elementID);
+   function mapFly(){
+        var x = document.getElementById('evaluator');
         const selectedValue=x.value;
         map.flyTo({
-            center: co_ords,
+            center: getCoordinates(selectedValue),
             essential: true
         });
-        map.setStyle(styleURL);
+        map.setStyle(getStyle(selectedValue));
     }
 
-    async function getData() {
+    async function getWeatherData() {
         var x = document.getElementById('temperature');
         var y = document.getElementById('evaluator');
         var z = document.getElementById('weather');
@@ -32,7 +37,8 @@
 
         const selectedValue=x.value;
         var apiURL;
-        apiURL = getWeatherAPI(y.value);
+        apiURL = getWeatherURL(getCoordinates(y.value));
+        
 
         const url = apiURL;
         try {
@@ -43,12 +49,6 @@
         
             const json = await response.json();
             responseObject=json;
-
-            console.log(responseObject.current_weather.temperature);
-            console.log(responseObject.current_weather.weathercode);
-            console.log(responseObject.current_weather.is_day);
-            console.log(getWeatherDescription(responseObject.current_weather.weathercode,Boolean(responseObject.current_weather.is_day)));
-            console.log(getWeatherIcon(responseObject.current_weather.weathercode,Boolean(responseObject.current_weather.is_day)));
             x.innerHTML=responseObject.current_weather.temperature + " " + responseObject.current_weather_units.temperature;
             z.innerHTML=getWeatherDescription(responseObject.current_weather.weathercode,Boolean(responseObject.current_weather.is_day));
             wIcon.src=getWeatherIcon(responseObject.current_weather.weathercode,Boolean(responseObject.current_weather.is_day));
@@ -60,7 +60,7 @@
 
     function updateWeatherAndMap(){
         mapFly();
-        getData();
+        getWeatherData();
     }
 
             // hsla(244, 87%, 66%, 0.75)
